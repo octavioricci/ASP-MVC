@@ -1,0 +1,54 @@
+﻿@model Simple.Models.PersonaModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AjaxMethod</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.js"></script>
+</head>
+<body>
+    <input type="text" id="txtName" />
+    <button id="boton">Presioname</button>
+    <script type="text/javascript">
+        $(function () {
+            $('#boton').click(function () {
+
+                var _data = { "name": $('#txtName').val() } ;
+               
+                    $.ajax({
+                            type: "POST",   // Acción
+                            //url: '@Url.Action("AjaxMethod","Home")',  //  Donde reenvía los datos
+                            url: "/Home/AjaxMethod",
+                           
+                            //data: '{ name : "' + $("#txtName").val() + '" }',    // Que datos envía. Acá el contenido
+                            data: JSON.stringify(_data),
+                            //  del textbox txtName
+                           
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (result) {   //  Respuesta del controlador
+                                $('#nombreResultado').html(result.Nombre);
+                                $('#fechaResultado').html(result.DateTime);
+                                //alert("Respuesta: " + result.Nombre);
+                            },
+                            error: function () { alert('Error'); }
+
+                     });
+            });
+        });
+
+
+
+    </script>
+    <div id="resultado">
+        <p id="nombreResultado"></p>
+        <p id="fechaResultado"></p>
+    </div>
+</body>
+</html>
